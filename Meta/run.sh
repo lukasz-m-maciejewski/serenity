@@ -128,12 +128,23 @@ elif [ "$SERENITY_RUN" = "qcmd" ]; then
         -append "${SERENITY_KERNEL_CMDLINE}"
 else
     # Meta/run.sh: qemu with user networking
-    "$SERENITY_QEMU_BIN" \
-        $SERENITY_COMMON_QEMU_ARGS \
-        $SERENITY_KVM_ARG \
-        $SERENITY_PACKET_LOGGING_ARG \
-        -netdev user,id=breh,hostfwd=tcp:127.0.0.1:8888-10.0.2.15:8888,hostfwd=tcp:127.0.0.1:8823-10.0.2.15:23,hostfwd=tcp:127.0.0.1:8000-10.0.2.15:8000,hostfwd=tcp:127.0.0.1:2222-10.0.2.15:22 \
-        -device e1000,netdev=breh \
-        -kernel Kernel/Kernel \
-        -append "${SERENITY_KERNEL_CMDLINE}"
+    CMD="$SERENITY_QEMU_BIN"
+    CMD="$CMD $SERENITY_COMMON_QEMU_ARGS"
+    CMD="$CMD $SERENITY_KVM_ARG"
+    CMD="$CMD $SERENITY_PACKET_LOGGING_ARG"
+    CMD="$CMD -netdev user,id=breh,hostfwd=tcp:127.0.0.1:8888-10.0.2.15:8888,hostfwd=tcp:127.0.0.1:8823-10.0.2.15:23,hostfwd=tcp:127.0.0.1:8000-10.0.2.15:8000,hostfwd=tcp:127.0.0.1:2222-10.0.2.15:22"
+    CMD="$CMD -device e1000,netdev=breh"
+    CMD="$CMD -kernel Kernel/Kernel"
+    CMD="$CMD -append ${SERENITY_KERNEL_CMDLINE}"
+    # "$SERENITY_QEMU_BIN" \
+    #     $SERENITY_COMMON_QEMU_ARGS \
+    #     $SERENITY_KVM_ARG \
+    #     $SERENITY_PACKET_LOGGING_ARG \
+    #     -netdev user,id=breh,hostfwd=tcp:127.0.0.1:8888-10.0.2.15:8888,hostfwd=tcp:127.0.0.1:8823-10.0.2.15:23,hostfwd=tcp:127.0.0.1:8000-10.0.2.15:8000,hostfwd=tcp:127.0.0.1:2222-10.0.2.15:22 \
+    #     -device e1000,netdev=breh \
+    #     -kernel Kernel/Kernel \
+    #     -append "${SERENITY_KERNEL_CMDLINE}"
+
+    echo $CMD
+    eval $CMD
 fi

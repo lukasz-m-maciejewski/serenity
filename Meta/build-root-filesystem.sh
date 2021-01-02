@@ -14,7 +14,7 @@ CP="cp"
 # gcp comes with coreutils, which is already a dependency.
 OS="$(uname -s)"
 if [ "$OS" = "Darwin" ] || echo "$OS" | grep -qe 'BSD$'; then
-	CP="gcp"
+    CP="gcp"
 fi
 
 die() {
